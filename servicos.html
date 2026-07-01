@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - Petshop Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-paw">🐾</div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <span class="logo-icon">🐾</span> Petshop Online
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-heart-fill me-1"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="produtos.html"><i class="bi bi-bag-heart-fill me-1"></i>Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="servicos.html"><i class="bi bi-scissors me-1"></i>Serviços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contato.html"><i class="bi bi-envelope-heart-fill me-1"></i>Contato</a></li>
+                </ul>
+                <button class="btn btn-cart ms-3 position-relative" id="btnCarrinho" onclick="toggleCarrinho()">
+                    <i class="bi bi-cart-heart-fill fs-5"></i>
+                    <span class="badge-cart" id="badgeCarrinho">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CARRINHO OFFCANVAS -->
+    <div class="offcanvas offcanvas-end cart-offcanvas" tabindex="-1" id="cartOffcanvas">
+        <div class="offcanvas-header cart-header">
+            <h5 class="offcanvas-title"><i class="bi bi-cart-heart-fill me-2"></i>Meu Carrinho</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cartItems" class="flex-grow-1">
+                <div class="cart-empty text-center py-5">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p class="text-muted mt-3">Seu carrinho está vazio</p>
+                </div>
+            </div>
+            <div class="cart-footer" id="cartFooter" style="display:none;">
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fw-bold fs-5">Total:</span>
+                    <span class="fw-bold fs-4 text-success" id="cartTotal">R$ 0,00</span>
+                </div>
+                <button class="btn btn-success w-100 btn-lg mb-2" onclick="finalizarCompra()">
+                    <i class="bi bi-credit-card-fill me-2"></i>Finalizar Compra
+                </button>
+                <button class="btn btn-outline-danger w-100" onclick="limparCarrinho()">
+                    <i class="bi bi-trash3-fill me-2"></i>Limpar Carrinho
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <h1>✂️ Nossos Serviços</h1>
+            <p class="lead opacity-75 mt-2">Cuidado profissional e carinhoso para seu melhor amigo</p>
+            <nav aria-label="breadcrumb" class="mt-3">
+                <ol class="breadcrumb justify-content-center" style="background:none;">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-white opacity-75">Home</a></li>
+                    <li class="breadcrumb-item active text-white">Serviços</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- SERVIÇOS CARDS -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-badge">Cuidados</span>
+                <h2 class="section-title">Escolha o <span class="text-primary-custom">Serviço Ideal</span></h2>
+                <p class="section-subtitle">Qualidade e carinho em cada atendimento</p>
+            </div>
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="servico-detalhado-card">
+                        <div class="servico-card-header">
+                            <div style="font-size:3rem; margin-bottom:0.75rem;">🛁</div>
+                            <h4 class="fw-bold mb-1">Banho e Tosa</h4>
+                            <div style="font-size:2rem; font-weight:800; color:#A7F3D0;">R$ 80,00</div>
+                        </div>
+                        <div class="servico-card-body">
+                            <p class="text-muted small mb-3">Serviço profissional com produtos de alta qualidade para deixar seu pet impecável.</p>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Produtos hipoalergênicos
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Profissionais experientes
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Ambiente climatizado
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Duração: 1-2 horas
+                            </div>
+                            <button class="btn btn-primary-custom w-100 mt-3" onclick="agendar('Banho e Tosa Completo')">
+                                <i class="bi bi-calendar-check-fill me-2"></i>Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="servico-detalhado-card" style="border: 2px solid var(--primary);">
+                        <div class="servico-card-header" style="background: linear-gradient(135deg, #8B5CF6, #EC4899);">
+                            <div class="featured-badge" style="top:-14px; left:50%; transform:translateX(-50%); position:absolute; background:linear-gradient(135deg,#8B5CF6,#EC4899); color:white; padding:0.3rem 1.25rem; border-radius:50px; font-size:0.8rem; font-weight:700; white-space:nowrap;">⭐ Mais Popular</div>
+                            <div style="font-size:3rem; margin-bottom:0.75rem; margin-top:1rem;">🚗</div>
+                            <h4 class="fw-bold mb-1">Banho + Tele-busca</h4>
+                            <div style="font-size:2rem; font-weight:800; color:#F9A8D4;">R$ 100,00</div>
+                        </div>
+                        <div class="servico-card-body">
+                            <p class="text-muted small mb-3">Buscamos e levamos seu pet com segurança e conforto até a sua casa.</p>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Busca e entrega em casa
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Transporte seguro
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Produtos premium
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Raio de 5km
+                            </div>
+                            <button class="btn btn-primary-custom w-100 mt-3" onclick="agendar('Banho e Tosa com Tele-busca')">
+                                <i class="bi bi-calendar-check-fill me-2"></i>Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="servico-detalhado-card">
+                        <div class="servico-card-header" style="background: linear-gradient(135deg, #0EA5E9, #0284C7);">
+                            <div style="font-size:3rem; margin-bottom:0.75rem;">🩺</div>
+                            <h4 class="fw-bold mb-1">Consulta Veterinária</h4>
+                            <div style="font-size:2rem; font-weight:800; color:#BAE6FD;">R$ 150,00</div>
+                        </div>
+                        <div class="servico-card-body">
+                            <p class="text-muted small mb-3">Atendimento veterinário completo para a saúde e bem-estar do seu pet.</p>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Veterinário experiente
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Diagnóstico completo
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Prescrição de medicamentos
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Orientações de cuidado
+                            </div>
+                            <button class="btn btn-primary-custom w-100 mt-3" onclick="agendar('Consulta Veterinária')">
+                                <i class="bi bi-calendar-check-fill me-2"></i>Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="servico-detalhado-card">
+                        <div class="servico-card-header" style="background: linear-gradient(135deg, #F59E0B, #D97706);">
+                            <div style="font-size:3rem; margin-bottom:0.75rem;">🎓</div>
+                            <h4 class="fw-bold mb-1">Adestramento Básico</h4>
+                            <div style="font-size:2rem; font-weight:800; color:#FDE68A;">R$ 200,00</div>
+                        </div>
+                        <div class="servico-card-body">
+                            <p class="text-muted small mb-3">Sessões de adestramento para comandos básicos e socialização.</p>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Instrutor certificado
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Comandos básicos
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                Socialização com pets
+                            </div>
+                            <div class="beneficio-item">
+                                <div class="beneficio-icon"><i class="bi bi-check-lg"></i></div>
+                                4 sessões de 1 hora
+                            </div>
+                            <button class="btn btn-primary-custom w-100 mt-3" onclick="agendar('Adestramento Básico')">
+                                <i class="bi bi-calendar-check-fill me-2"></i>Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULÁRIO DE AGENDAMENTO -->
+    <section class="py-5 bg-white" id="agendamento">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden" data-aos="zoom-in">
+                        <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, var(--primary), var(--accent-dark));">
+                            <h3 class="fw-bold mb-1"><i class="bi bi-calendar-heart-fill me-2"></i>Agende seu Serviço</h3>
+                            <p class="opacity-75 mb-0">Preencha o formulário e entraremos em contato</p>
+                        </div>
+                        <div class="card-body p-4 p-md-5">
+                            <form id="agendamentoForm" onsubmit="enviarAgendamento(event)">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="servico"><i class="bi bi-scissors me-1 text-primary-custom"></i>Serviço</label>
+                                        <select class="form-select" id="servico" name="servico" required>
+                                            <option value="">Selecione um serviço</option>
+                                            <option value="Banho e Tosa Completo">🛁 Banho e Tosa Completo - R$ 80,00</option>
+                                            <option value="Banho e Tosa com Tele-busca">🚗 Banho + Tele-busca - R$ 100,00</option>
+                                            <option value="Consulta Veterinária">🩺 Consulta Veterinária - R$ 150,00</option>
+                                            <option value="Adestramento Básico">🎓 Adestramento Básico - R$ 200,00</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="tipoPet"><i class="bi bi-heart-fill me-1 text-primary-custom"></i>Tipo de Pet</label>
+                                        <select class="form-select" id="tipoPet" name="tipoPet" required>
+                                            <option value="">Selecione o tipo</option>
+                                            <option value="Cão">🐕 Cão</option>
+                                            <option value="Gato">🐈 Gato</option>
+                                            <option value="Outro">🐾 Outro</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="nomePet"><i class="bi bi-star-fill me-1 text-primary-custom"></i>Nome do Pet</label>
+                                        <input type="text" class="form-control" id="nomePet" name="nomePet" placeholder="Ex: Rex, Mel..." required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="nomeCliente"><i class="bi bi-person-fill me-1 text-primary-custom"></i>Seu Nome</label>
+                                        <input type="text" class="form-control" id="nomeCliente" name="nomeCliente" placeholder="Seu nome completo" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="data"><i class="bi bi-calendar-fill me-1 text-primary-custom"></i>Data Desejada</label>
+                                        <input type="date" class="form-control" id="data" name="data" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="hora"><i class="bi bi-clock-fill me-1 text-primary-custom"></i>Hora Desejada</label>
+                                        <input type="time" class="form-control" id="hora" name="hora" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="telefone"><i class="bi bi-telephone-fill me-1 text-primary-custom"></i>Telefone / WhatsApp</label>
+                                        <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="(11) 99999-9999" required>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <button type="submit" class="btn btn-primary-custom w-100 btn-lg pulse-animation">
+                                            <i class="bi bi-calendar-check-fill me-2"></i>Confirmar Agendamento
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-new">
+        <div class="container">
+            <div class="row g-4 py-5">
+                <div class="col-lg-4">
+                    <h4 class="text-white fw-bold mb-3">🐾 Petshop Online</h4>
+                    <p class="text-muted">Cuidando dos seus pets com amor e dedicação desde 2015.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Links Rápidos</h6>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="bi bi-chevron-right me-1"></i>Home</a></li>
+                        <li><a href="produtos.html"><i class="bi bi-chevron-right me-1"></i>Produtos</a></li>
+                        <li><a href="servicos.html"><i class="bi bi-chevron-right me-1"></i>Serviços</a></li>
+                        <li><a href="contato.html"><i class="bi bi-chevron-right me-1"></i>Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Serviços</h6>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="bi bi-chevron-right me-1"></i>Banho e Tosa</a></li>
+                        <li><a href="#"><i class="bi bi-chevron-right me-1"></i>Tele-busca</a></li>
+                        <li><a href="#"><i class="bi bi-chevron-right me-1"></i>Consulta Vet.</a></li>
+                        <li><a href="#"><i class="bi bi-chevron-right me-1"></i>Adestramento</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Contato</h6>
+                    <ul class="footer-contact">
+                        <li><i class="bi bi-geo-alt-fill me-2 text-primary-custom"></i>Rua dos Pets, 123 - SP</li>
+                        <li><i class="bi bi-telephone-fill me-2 text-primary-custom"></i>(11) 9999-9999</li>
+                        <li><i class="bi bi-envelope-fill me-2 text-primary-custom"></i>contato@petshop.com</li>
+                        <li><i class="bi bi-clock-fill me-2 text-primary-custom"></i>Seg-Sáb: 8h às 18h</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row py-3 align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="text-muted mb-0">&copy; 2025 Petshop Online. Todos os direitos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="text-muted mb-0">Desenvolvido com <span class="text-danger">❤️</span> para os amigos de quatro patas.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+        <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-cart-check-fill me-2"></i>
+                    <span id="toastMsg">Ação realizada!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+    </script>
+</body>
+</html>

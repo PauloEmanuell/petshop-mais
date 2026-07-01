@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Petshop Online</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-paw">🐾</div>
+    </div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <span class="logo-icon">🐾</span> Petshop Online
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-heart-fill me-1"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="produtos.html"><i class="bi bi-bag-heart-fill me-1"></i>Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="servicos.html"><i class="bi bi-scissors me-1"></i>Serviços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contato.html"><i class="bi bi-envelope-heart-fill me-1"></i>Contato</a></li>
+                </ul>
+                <button class="btn btn-cart ms-3 position-relative" id="btnCarrinho" onclick="toggleCarrinho()">
+                    <i class="bi bi-cart-heart-fill fs-5"></i>
+                    <span class="badge-cart" id="badgeCarrinho">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CARRINHO OFFCANVAS ===== -->
+    <div class="offcanvas offcanvas-end cart-offcanvas" tabindex="-1" id="cartOffcanvas">
+        <div class="offcanvas-header cart-header">
+            <h5 class="offcanvas-title"><i class="bi bi-cart-heart-fill me-2"></i>Meu Carrinho</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cartItems" class="flex-grow-1">
+                <div class="cart-empty text-center py-5" id="cartEmpty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p class="text-muted mt-3">Seu carrinho está vazio</p>
+                </div>
+            </div>
+            <div class="cart-footer" id="cartFooter" style="display:none;">
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fw-bold fs-5">Total:</span>
+                    <span class="fw-bold fs-4 text-success" id="cartTotal">R$ 0,00</span>
+                </div>
+                <button class="btn btn-success w-100 btn-lg mb-2" onclick="finalizarCompra()">
+                    <i class="bi bi-credit-card-fill me-2"></i>Finalizar Compra
+                </button>
+                <button class="btn btn-outline-danger w-100" onclick="limparCarrinho()">
+                    <i class="bi bi-trash3-fill me-2"></i>Limpar Carrinho
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInDown">🛍️ Nossos Produtos</h1>
+            <p class="lead opacity-75 mt-2">Tudo que seu pet precisa com a melhor qualidade</p>
+            <nav aria-label="breadcrumb" class="mt-3">
+                <ol class="breadcrumb justify-content-center" style="background:none;">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-white opacity-75">Home</a></li>
+                    <li class="breadcrumb-item active text-white">Produtos</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ===== FILTROS ===== -->
+    <div class="filter-bar">
+        <div class="container">
+            <div class="d-flex gap-2 flex-wrap align-items-center">
+                <span class="fw-semibold me-2 text-muted small"><i class="bi bi-funnel-fill me-1"></i>Filtrar:</span>
+                <button class="filter-btn active" onclick="filtrarProdutos('todos')">
+                    <i class="bi bi-grid-fill me-1"></i>Todos
+                </button>
+                <button class="filter-btn" onclick="filtrarProdutos('acessorios')">
+                    <i class="bi bi-heart-fill me-1"></i>Acessórios
+                </button>
+                <button class="filter-btn" onclick="filtrarProdutos('racoes')">
+                    <i class="bi bi-cup-hot-fill me-1"></i>Rações
+                </button>
+                <button class="filter-btn" onclick="filtrarProdutos('higiene')">
+                    <i class="bi bi-droplet-fill me-1"></i>Higiene
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PRODUTOS ===== -->
+    <section class="py-5 bg-light">
+        <div class="container">
+
+            <!-- ===== ACESSÓRIOS ===== -->
+            <div class="categoria-section" id="acessorios" data-categoria="acessorios">
+                <h2 class="categoria-section-title" data-aos="fade-right">
+                    🎀 Acessórios
+                </h2>
+                <div class="row g-4">
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">⭐ Mais Vendido</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio1.jpg" alt="Kit Completo Pet 26 Peças" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Kit+Pet'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Kit Completo Pet 26 Peças', 89.90, 'images/acessorio1.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Kit Completo Pet 26 Peças</h5>
+                                <p class="text-muted small">Coleira, guia, brinquedos e mais</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 89,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Kit Completo Pet 26 Peças', 89.90, 'images/acessorio1.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🆕 Novo</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio2.jpg" alt="Kit Acessórios Gato" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Acessorios'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Kit Acessórios Gato Premium', 75.00, 'images/acessorio2.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Kit Acessórios Gato Premium</h5>
+                                <p class="text-muted small">Arranhador, cama e tigela</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 75,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Kit Acessórios Gato Premium', 75.00, 'images/acessorio2.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">💚 Premium</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio3.jpg" alt="Coleira Hemp + Brinquedo" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Coleira'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Coleira Hemp + Brinquedo', 55.00, 'images/acessorio3.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Coleira Hemp + Brinquedo</h5>
+                                <p class="text-muted small">Ecológica, resistente e natural</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 55,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Coleira Hemp + Brinquedo', 55.00, 'images/acessorio3.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">🔥 Promoção</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio4.jpg" alt="Laços Coloridos para Pet" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Lacos'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Laços Coloridos para Pet 100un', 32.90, 'images/acessorio4.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Laços Coloridos para Pet 100un</h5>
+                                <p class="text-muted small">50 pares, 20 cores diferentes</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 32,90</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Laços Coloridos para Pet 100un', 32.90, 'images/acessorio4.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="250">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🎯 Destaque</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio5.jpg" alt="Coleira Ajustável Premium" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Coleira+Ajustavel'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Coleira Ajustável Premium', 49.90, 'images/acessorio5.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Coleira Ajustável Premium</h5>
+                                <p class="text-muted small">Para cães de todos os tamanhos</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 49,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Coleira Ajustável Premium', 49.90, 'images/acessorio5.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🌸 Especial</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio6.jpg" alt="Flores Decorativas para Coleira" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Flores+Pet'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Flores Decorativas para Coleira', 28.90, 'images/acessorio6.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Flores Decorativas para Coleira</h5>
+                                <p class="text-muted small">100 peças multicoloridas</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 28,90</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Flores Decorativas para Coleira', 28.90, 'images/acessorio6.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="350">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🏠 Conforto</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio1.jpg" alt="Cama Ortopédica para Pets" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Cama+Pet'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Cama Ortopédica para Pets', 129.90, 'images/acessorio1.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Cama Ortopédica para Pets</h5>
+                                <p class="text-muted small">Espuma de alta densidade</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 129,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Cama Ortopédica para Pets', 129.90, 'images/acessorio1.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">💥 Oferta</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio2.jpg" alt="Transportadora para Pets" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Transportadora'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Transportadora para Pets', 89.90, 'images/acessorio2.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Transportadora para Pets</h5>
+                                <p class="text-muted small">Segura e confortável para viagens</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 89,90</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Transportadora para Pets', 89.90, 'images/acessorio2.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="450">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🎮 Diversão</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio3.jpg" alt="Brinquedo Mordedor Resistente" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Brinquedo'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Brinquedo Mordedor Resistente', 29.90, 'images/acessorio3.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Brinquedo Mordedor Resistente</h5>
+                                <p class="text-muted small">Borracha natural, durável</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 29,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Brinquedo Mordedor Resistente', 29.90, 'images/acessorio3.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="500">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🌟 Top</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio4.jpg" alt="Tigela Inox Dupla" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Tigela'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Tigela Inox Dupla Antiderrapante', 45.00, 'images/acessorio4.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Tigela Inox Dupla Antiderrapante</h5>
+                                <p class="text-muted small">Aço inox, fácil de limpar</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 45,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Tigela Inox Dupla Antiderrapante', 45.00, 'images/acessorio4.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="550">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🔒 Seguro</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio5.jpg" alt="Guia Retrátil 5m" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Guia'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Guia Retrátil 5m Premium', 65.00, 'images/acessorio5.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Guia Retrátil 5m Premium</h5>
+                                <p class="text-muted small">Trava automática, ergonômica</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 65,00</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Guia Retrátil 5m Premium', 65.00, 'images/acessorio5.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">🎁 Kit</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/acessorio6.jpg" alt="Kit Fantasia para Pets" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Fantasia'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Kit Fantasia para Pets', 38.90, 'images/acessorio6.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Kit Fantasia para Pets</h5>
+                                <p class="text-muted small">Laços, gravatas e acessórios</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 38,90</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Kit Fantasia para Pets', 38.90, 'images/acessorio6.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr class="my-5" style="border-color: #E5E7EB; border-width: 2px;">
+
+            <!-- ===== RAÇÕES ===== -->
+            <div class="categoria-section" id="racoes" data-categoria="racoes">
+                <h2 class="categoria-section-title" data-aos="fade-right">
+                    🍖 Rações
+                </h2>
+                <div class="row g-4">
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">⭐ Premium</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao1.jpg" alt="Royal Canin Premium Cat" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Royal+Canin'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Royal Canin Premium Cat 10kg', 145.00, 'images/racao1.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Royal Canin Premium Cat 10kg</h5>
+                                <p class="text-muted small">Gatos filhotes - fórmula especial</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 145,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Royal Canin Premium Cat 10kg', 145.00, 'images/racao1.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🐱 Gatos</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao2.jpg" alt="Premier Gatos Filhotes" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Premier+Gatos'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Premier Gatos Filhotes 1,5kg', 85.00, 'images/racao2.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Premier Gatos Filhotes 1,5kg</h5>
+                                <p class="text-muted small">Sabor frango, ambientes internos</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 85,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Premier Gatos Filhotes 1,5kg', 85.00, 'images/racao2.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">🔥 Oferta</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao3.jpg" alt="Ração Nutricia Premium" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Nutricia'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Ração Nutricia Premium 5kg', 110.00, 'images/racao3.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Ração Nutricia Premium 5kg</h5>
+                                <p class="text-muted small">100% carne, sem corantes</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 110,00</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Ração Nutricia Premium 5kg', 110.00, 'images/racao3.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🐕 Cães</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao4.jpg" alt="Canidae All Life Stages" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Canidae'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Canidae All Life Stages 10kg', 195.00, 'images/racao4.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Canidae All Life Stages 10kg</h5>
+                                <p class="text-muted small">Para todas as raças e idades</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 195,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Canidae All Life Stages 10kg', 195.00, 'images/racao4.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="250">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🐟 Salmão</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao5.jpg" alt="Pure Harmony Salmão" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Pure+Harmony'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Pure Harmony Salmão Gatos 1,3kg', 98.00, 'images/racao5.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Pure Harmony Salmão Gatos 1,3kg</h5>
+                                <p class="text-muted small">Grain free, super premium</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 98,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Pure Harmony Salmão Gatos 1,3kg', 98.00, 'images/racao5.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🥣 Tigela</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao6.jpg" alt="Tigela Mármore Premium" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Tigela+Marmore'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Tigela Mármore Antiderrapante', 79.90, 'images/racao6.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Tigela Mármore Antiderrapante</h5>
+                                <p class="text-muted small">Design elegante, 5 lbs</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 79,90</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Tigela Mármore Antiderrapante', 79.90, 'images/racao6.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="350">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">💊 Saúde</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao1.jpg" alt="Ração Sênior Cães 15kg" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Racao+Senior'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Ração Sênior Cães 15kg', 165.00, 'images/racao1.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Ração Sênior Cães 15kg</h5>
+                                <p class="text-muted small">Formulada para cães idosos</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 165,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Ração Sênior Cães 15kg', 165.00, 'images/racao1.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🌿 Natural</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao2.jpg" alt="Ração Natural Frango 3kg" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Racao+Natural'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Ração Natural Frango 3kg', 120.00, 'images/racao2.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Ração Natural Frango 3kg</h5>
+                                <p class="text-muted small">Sem conservantes artificiais</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 120,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Ração Natural Frango 3kg', 120.00, 'images/racao2.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="450">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🐾 Filhote</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao3.jpg" alt="Ração Filhote Cão 10kg" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Racao+Filhote'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Ração Filhote Cão 10kg', 135.00, 'images/racao3.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Ração Filhote Cão 10kg</h5>
+                                <p class="text-muted small">Nutrição completa para filhotes</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 135,00</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Ração Filhote Cão 10kg', 135.00, 'images/racao3.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="500">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">⚡ Energia</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao4.jpg" alt="Ração Raça Grande 20kg" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Raca+Grande'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Ração Raça Grande 20kg', 220.00, 'images/racao4.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Ração Raça Grande 20kg</h5>
+                                <p class="text-muted small">Para cães de grande porte</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 220,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Ração Raça Grande 20kg', 220.00, 'images/racao4.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="550">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🎯 Castrado</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao5.jpg" alt="Ração Gatos Castrados 3kg" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Gatos+Castrados'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Ração Gatos Castrados 3kg', 95.00, 'images/racao5.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Ração Gatos Castrados 3kg</h5>
+                                <p class="text-muted small">Controle de peso e urinário</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 95,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Ração Gatos Castrados 3kg', 95.00, 'images/racao5.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🌾 Grain Free</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/racao6.jpg" alt="Ração Grain Free Cão 8kg" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Grain+Free'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Ração Grain Free Cão 8kg', 175.00, 'images/racao6.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Ração Grain Free Cão 8kg</h5>
+                                <p class="text-muted small">Sem grãos, proteína animal</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 175,00</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Ração Grain Free Cão 8kg', 175.00, 'images/racao6.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr class="my-5" style="border-color: #E5E7EB; border-width: 2px;">
+
+            <!-- ===== HIGIENE/LIMPEZA ===== -->
+            <div class="categoria-section" id="higiene" data-categoria="higiene">
+                <h2 class="categoria-section-title" data-aos="fade-right">
+                    🛁 Higiene & Limpeza
+                </h2>
+                <div class="row g-4">
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">⭐ Top Venda</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene1.jpg" alt="Kit Grooming 8 Peças" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Kit+Grooming'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Kit Grooming 8 Peças', 75.00, 'images/higiene1.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Kit Grooming 8 Peças</h5>
+                                <p class="text-muted small">Escova, pente, cortador e mais</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 75,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Kit Grooming 8 Peças', 75.00, 'images/higiene1.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🆕 Lançamento</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene2.jpg" alt="Kit Grooming Aspirador" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Aspirador+Pet'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Kit Grooming com Aspirador', 289.90, 'images/higiene2.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Kit Grooming com Aspirador</h5>
+                                <p class="text-muted small">13 acessórios, silencioso</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 289,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Kit Grooming com Aspirador', 289.90, 'images/higiene2.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">💆 Massagem</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene3.jpg" alt="Escova Silicone Massageadora" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Escova+Silicone'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Escova Silicone Massageadora', 39.90, 'images/higiene3.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Escova Silicone Massageadora</h5>
+                                <p class="text-muted small">Desembaraça e massageia</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 39,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Escova Silicone Massageadora', 39.90, 'images/higiene3.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">🔥 Promoção</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene4.jpg" alt="Escova Banho com Shampoo" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Escova+Banho'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Escova Banho com Dispenser', 45.90, 'images/higiene4.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Escova Banho com Dispenser</h5>
+                                <p class="text-muted small">3 peças, silicone premium</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 45,90</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Escova Banho com Dispenser', 45.90, 'images/higiene4.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="250">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🐱 Gatos</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene5.jpg" alt="Kit Escova Gatos 6 em 1" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Kit+Escova+Gatos'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Kit Escova Gatos 6 em 1', 58.90, 'images/higiene5.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Kit Escova Gatos 6 em 1</h5>
+                                <p class="text-muted small">Auto-limpante, pelos longos</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 58,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Kit Escova Gatos 6 em 1', 58.90, 'images/higiene5.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🧴 Shampoo</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene6.jpg" alt="Shampoo Fresh Pet Professional" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Shampoo+Pet'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Shampoo Fresh Pet Professional', 65.00, 'images/higiene6.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Shampoo Fresh Pet Professional</h5>
+                                <p class="text-muted small">Galão 3,8L - uso profissional</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 65,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Shampoo Fresh Pet Professional', 65.00, 'images/higiene6.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="350">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🌿 Natural</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene1.jpg" alt="Shampoo Hipoalergênico" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Shampoo+Hipo'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Shampoo Hipoalergênico 500ml', 60.00, 'images/higiene1.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Shampoo Hipoalergênico 500ml</h5>
+                                <p class="text-muted small">Para peles sensíveis</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 60,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Shampoo Hipoalergênico 500ml', 60.00, 'images/higiene1.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">✂️ Corte</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene2.jpg" alt="Cortador de Unhas Profissional" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Cortador+Unhas'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Cortador de Unhas Profissional', 35.00, 'images/higiene2.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Cortador de Unhas Profissional</h5>
+                                <p class="text-muted small">Aço inox, seguro e preciso</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 35,00</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Cortador de Unhas Profissional', 35.00, 'images/higiene2.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="450">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🪥 Dental</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene3.jpg" alt="Kit Higiene Dental Pet" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Dental+Pet'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Kit Higiene Dental Pet', 42.90, 'images/higiene3.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Kit Higiene Dental Pet</h5>
+                                <p class="text-muted small">Escova + pasta dental natural</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 42,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Kit Higiene Dental Pet', 42.90, 'images/higiene3.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="500">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-new">🚿 Banho</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene4.jpg" alt="Escova Banho Silicone Verde" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Escova+Verde'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Escova Banho Silicone Premium', 29.90, 'images/higiene4.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Escova Banho Silicone Premium</h5>
+                                <p class="text-muted small">Com dispenser de shampoo</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 29,90</span>
+                                    <div class="stars">⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Escova Banho Silicone Premium', 29.90, 'images/higiene4.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="550">
+                        <div class="produto-card-new">
+                            <div class="produto-badge badge-promo">💧 Condicionador</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene5.jpg" alt="Condicionador Pelos Longos" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Condicionador'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Condicionador Pelos Longos 500ml', 55.00, 'images/higiene5.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Condicionador Pelos Longos 500ml</h5>
+                                <p class="text-muted small">Desembaraça e dá brilho</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 55,00</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Condicionador Pelos Longos 500ml', 55.00, 'images/higiene5.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
+                        <div class="produto-card-new">
+                            <div class="produto-badge">🌸 Perfume</div>
+                            <div class="produto-img-wrap">
+                                <img src="images/higiene6.jpg" alt="Colônia Pet Floral 100ml" class="produto-img" onerror="this.src='https://placehold.co/400x300/10B981/white?text=Colonia+Pet'">
+                                <div class="produto-overlay">
+                                    <button class="btn btn-overlay" onclick="adicionarCarrinho('Colônia Pet Floral 100ml', 48.90, 'images/higiene6.jpg')">
+                                        <i class="bi bi-cart-plus-fill me-1"></i>Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="produto-info">
+                                <h5>Colônia Pet Floral 100ml</h5>
+                                <p class="text-muted small">Fragrância suave e duradoura</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="produto-preco">R$ 48,90</span>
+                                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <button class="btn btn-primary-custom w-100 mt-2" onclick="adicionarCarrinho('Colônia Pet Floral 100ml', 48.90, 'images/higiene6.jpg')">
+                                    <i class="bi bi-cart-plus-fill me-1"></i>Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer-new">
+        <div class="container">
+            <div class="row g-4 py-5">
+                <div class="col-lg-4">
+                    <h4 class="text-white fw-bold mb-3">🐾 Petshop Online</h4>
+                    <p class="text-muted">Cuidando dos seus pets com amor e dedicação desde 2015.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Links Rápidos</h6>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="bi bi-chevron-right me-1"></i>Home</a></li>
+                        <li><a href="produtos.html"><i class="bi bi-chevron-right me-1"></i>Produtos</a></li>
+                        <li><a href="servicos.html"><i class="bi bi-chevron-right me-1"></i>Serviços</a></li>
+                        <li><a href="contato.html"><i class="bi bi-chevron-right me-1"></i>Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Categorias</h6>
+                    <ul class="footer-links">
+                        <li><a href="#acessorios"><i class="bi bi-chevron-right me-1"></i>Acessórios</a></li>
+                        <li><a href="#racoes"><i class="bi bi-chevron-right me-1"></i>Rações</a></li>
+                        <li><a href="#higiene"><i class="bi bi-chevron-right me-1"></i>Higiene & Limpeza</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Contato</h6>
+                    <ul class="footer-contact">
+                        <li><i class="bi bi-geo-alt-fill me-2 text-primary-custom"></i>Rua dos Pets, 123 - SP</li>
+                        <li><i class="bi bi-telephone-fill me-2 text-primary-custom"></i>(11) 9999-9999</li>
+                        <li><i class="bi bi-envelope-fill me-2 text-primary-custom"></i>contato@petshop.com</li>
+                        <li><i class="bi bi-clock-fill me-2 text-primary-custom"></i>Seg-Sáb: 8h às 18h</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row py-3 align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="text-muted mb-0">&copy; 2025 Petshop Online. Todos os direitos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="text-muted mb-0">Desenvolvido com <span class="text-danger">❤️</span> para os amigos de quatro patas.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+        <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-cart-check-fill me-2"></i>
+                    <span id="toastMsg">Produto adicionado!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+    <script>
+        AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic' });
+
+        // Filtro de produtos
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const cat = this.textContent.toLowerCase().trim();
+                const secoes = document.querySelectorAll('.categoria-section');
+                secoes.forEach(s => {
+                    if (cat.includes('todos') || s.dataset.categoria === s.dataset.categoria) {
+                        s.style.display = 'block';
+                    }
+                });
+            });
+        });
+
+        // Filtro via URL hash
+        window.addEventListener('load', function() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const el = document.getElementById(hash);
+                if (el) {
+                    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 500);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
